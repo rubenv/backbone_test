@@ -1,7 +1,8 @@
 var connect = require('connect'),
     fs = require('fs'),
     Haml = require('haml'),
-    ugly = require("uglify-js");
+    ugly = require("uglify-js"),
+    backend = require(__dirname + '/app/backend.js');
 
 var templates = {};
 
@@ -77,6 +78,7 @@ var server = connect(
     connect.static(__dirname + '/public')
 );
 
+server.use('/backend', backend.server);
 server.use('/view', haml_server);
 server.use('/', app_server);
 server.listen(3000);
