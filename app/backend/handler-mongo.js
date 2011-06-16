@@ -1,7 +1,8 @@
 var _ = require('underscore'),
     mappers = require('backend/mapper'),
     util = require('backend/util'),
-    mongo = require('backend/services').mongo;
+    mongo = require('backend/services').mongo,
+    uuid = require('node-uuid');
 
 var MongoHandler = function () {
 };
@@ -47,19 +48,25 @@ _.extend(MongoHandler.prototype, {
         mapper.register(reqType, this._collection, wrapper);
     },
 
+    _assignUUID: function (instance) {
+        instance.uuid = uuid();
+    },
+
     getMongoObject: function (req, res) {
-        if (!req.params.id) {
+        if (!req.params.uuid) {
             util.respondBadRequest(res);
             return;
         }
 
-        this.model.findOne({ id: req.params.id }, function (err, obj) {
+        this.model.findOne({ uuid: req.params.uuid }, function (err, obj) {
+            if (err) throw err;
             util.respondJSON(res, obj);
         });
     },
 
     getMongoCollection: function (req, res) {
         this.model.find(function (err, obj) {
+            if (err) throw err;
             util.respondJSON(res, obj);
         });
     },
@@ -68,6 +75,7 @@ _.extend(MongoHandler.prototype, {
         var model = mongo.model(this._collection);
         var instance = new model();
         _.extend(instance, req.body);
+        this._assignUUID(instance);
         instance.save(function (err) {
             if (err) throw err;
             util.respondJSON(res, instance);

@@ -46,6 +46,6 @@ function route(reqType) {
 
 module.exports = function (app) {
     app.get('/:type', route('getCollection'));
-    app.get('/:type/:id', route('getObject'));
+    app.get('/:type/:uuid', route('getObject'));
     app.put('/:type', route('putObject'));
 };

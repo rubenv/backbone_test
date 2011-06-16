@@ -13,7 +13,7 @@ _.extend(PersonHandler.prototype, MongoHandler.prototype, {
     _collection: 'person',
 
     _schema: new mongo.Schema({
-        id: Number,
+        uuid: String,
         name: String
     }),
 
