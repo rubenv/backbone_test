@@ -21,7 +21,6 @@ function route(reqType) {
         // of the router and hand control back to connect.
         var controller = mappers.controllers.resolve(reqType, objType);
         if (controller === null) {
-            console.log('No controller for ' + objType + ', skipping!'); 
             next();
             return;
         }
