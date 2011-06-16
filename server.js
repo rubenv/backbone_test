@@ -79,7 +79,8 @@ var server = connect(
     connect.favicon(), 
     connect.profiler(),
     connect.logger(),
-    connect.static(__dirname + '/public')
+    connect.static(__dirname + '/public'),
+    connect.bodyParser()
 );
 
 server.use('/backend', backend.server);

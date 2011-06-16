@@ -25,6 +25,8 @@ _.extend(MongoHandler.prototype, {
 
         this.model = mongo.model(this._collection, this._schema);
         this.registerController('getObject', this.getMongoObject);
+        this.registerController('getCollection', this.getMongoCollection);
+        this.registerController('putObject', this.putMongoObject);
         this._registerExtraHandlers();
     },
 
@@ -41,7 +43,8 @@ _.extend(MongoHandler.prototype, {
             return;
         }
 
-        mapper.register(reqType, this._collection, handler);
+        var wrapper = _.bind(handler, this);
+        mapper.register(reqType, this._collection, wrapper);
     },
 
     getMongoObject: function (req, res) {
@@ -50,12 +53,24 @@ _.extend(MongoHandler.prototype, {
             return;
         }
 
-        console.log(this._schema);
-        console.log(this.model);
         this.model.findOne({ id: req.params.id }, function (err, obj) {
-            console.log(err);
-            console.log(obj);
             util.respondJSON(res, obj);
+        });
+    },
+
+    getMongoCollection: function (req, res) {
+        this.model.find(function (err, obj) {
+            util.respondJSON(res, obj);
+        });
+    },
+
+    putMongoObject: function (req, res) {
+        var model = mongo.model(this._collection);
+        var instance = new model();
+        _.extend(instance, req.body);
+        instance.save(function (err) {
+            if (err) throw err;
+            util.respondJSON(res, instance);
         });
     }
 });

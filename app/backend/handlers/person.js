@@ -10,7 +10,7 @@ function personAcl () {
 }
 
 _.extend(PersonHandler.prototype, MongoHandler.prototype, {
-    _collection: 'people',
+    _collection: 'person',
 
     _schema: new mongo.Schema({
         id: Number,
@@ -20,6 +20,7 @@ _.extend(PersonHandler.prototype, MongoHandler.prototype, {
     _registerExtraHandlers: function () {
         this.registerAcl('getObject', personAcl);
         this.registerAcl('getCollection', personAcl);
+        this.registerAcl('putObject', personAcl);
     }
 });
 
