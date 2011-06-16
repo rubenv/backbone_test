@@ -1,8 +1,10 @@
+require.paths.unshift(__dirname + '/app');
+
 var connect = require('connect'),
     fs = require('fs'),
     Haml = require('haml'),
-    ugly = require("uglify-js"),
-    backend = require(__dirname + '/app/backend.js');
+    ugly = require('uglify-js'),
+    backend = require('backend');
 
 var templates = {};
 
@@ -74,6 +76,8 @@ var app_server = connect(
 );
 
 var server = connect(
+    connect.favicon(), 
+    connect.profiler(),
     connect.logger(),
     connect.static(__dirname + '/public')
 );
