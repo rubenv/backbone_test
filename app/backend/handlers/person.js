@@ -1,28 +1,21 @@
-var _ = require('underscore'),
-    mongo = require('backend/services').mongo,
-    MongoHandler = require('backend/handler-mongo');
-
-var PersonHandler = function () {
-};
+var MongoHandler = require('backend/handler-mongo');
 
 function personAcl () {
     return true;
 }
 
-_.extend(PersonHandler.prototype, MongoHandler.prototype, {
+MongoHandler.create({
     _collection: 'person',
 
-    _schema: new mongo.Schema({
+    _schema: {
         uuid: String,
         name: String
-    }),
+    },
 
-    _registerExtraHandlers: function () {
-        this.registerAcl('getObject', personAcl);
-        this.registerAcl('getCollection', personAcl);
-        this.registerAcl('putObject', personAcl);
-        this.registerAcl('postObject', personAcl);
+    _acls: {
+        getObject: personAcl,
+        getCollection: personAcl,
+        putObject: personAcl,
+        postObject: personAcl
     }
 });
-
-new PersonHandler().register();

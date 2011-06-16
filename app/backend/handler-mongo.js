@@ -4,17 +4,20 @@ var _ = require('underscore'),
     mongo = require('backend/services').mongo,
     uuid = require('node-uuid');
 
-var MongoHandler = function () {
+var MongoHandler = function (options) {
+    _.extend(this, options);
+};
+
+// For convenience.
+MongoHandler.create = function(options) {
+    new MongoHandler(options).register();
 };
 
 _.extend(MongoHandler.prototype, {
     // Should be set by subclasses.
     _collection: '',
     _schema: null,
-
-    _registerExtraHandlers: function () {
-        // Can be overriden by child.
-    },
+    _acls: {},
 
     register: function () {
         if (this._collection === '') {
@@ -24,12 +27,16 @@ _.extend(MongoHandler.prototype, {
             throw('_schema can not be empty!');
         }
 
-        this.model = mongo.model(this._collection, this._schema);
+        this.model = mongo.model(this._collection, new mongo.Schema(this._schema));
         this.registerController('getObject', this.getMongoObject);
         this.registerController('getCollection', this.getMongoCollection);
         this.registerController('putObject', this.putMongoObject);
         this.registerController('postObject', this.updateMongoObject);
-        this._registerExtraHandlers();
+
+        var self = this;
+        _.each(this._acls, function (handler, method) {
+            self.registerAcl(method, handler);
+        });
     },
 
     registerAcl: function (reqType, handler) {

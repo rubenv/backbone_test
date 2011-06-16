@@ -1,5 +1,4 @@
-var acl = require('backend/acl'),
-    mappers = require('backend/mapper'),
+var mappers = require('backend/mapper'),
     util = require('backend/util');
 
 /* The router is the core of the backend.
