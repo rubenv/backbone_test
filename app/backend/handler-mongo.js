@@ -28,6 +28,7 @@ _.extend(MongoHandler.prototype, {
         this.registerController('getObject', this.getMongoObject);
         this.registerController('getCollection', this.getMongoCollection);
         this.registerController('putObject', this.putMongoObject);
+        this.registerController('postObject', this.updateMongoObject);
         this._registerExtraHandlers();
     },
 
@@ -79,6 +80,25 @@ _.extend(MongoHandler.prototype, {
         instance.save(function (err) {
             if (err) throw err;
             util.respondJSON(res, instance);
+        });
+    },
+
+    updateMongoObject: function (req, res) {
+        if (!req.params.uuid) {
+            util.respondBadRequest(res);
+            return;
+        }
+
+        delete req.body.uuid;
+        delete req.body._id;
+
+        this.model.findOne({ uuid: req.params.uuid }, function (err, instance) {
+            if (err) throw err;
+            _.extend(instance, req.body);
+            instance.save(function (err) {
+                if (err) throw err;
+                util.respondJSON(res, instance);
+            });
         });
     }
 });

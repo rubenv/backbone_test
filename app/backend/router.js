@@ -48,4 +48,5 @@ module.exports = function (app) {
     app.get('/:type', route('getCollection'));
     app.get('/:type/:uuid', route('getObject'));
     app.put('/:type', route('putObject'));
+    app.post('/:type/:uuid', route('postObject'));
 };

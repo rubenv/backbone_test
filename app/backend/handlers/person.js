@@ -21,6 +21,7 @@ _.extend(PersonHandler.prototype, MongoHandler.prototype, {
         this.registerAcl('getObject', personAcl);
         this.registerAcl('getCollection', personAcl);
         this.registerAcl('putObject', personAcl);
+        this.registerAcl('postObject', personAcl);
     }
 });
 
