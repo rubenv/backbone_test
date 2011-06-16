@@ -40,7 +40,7 @@ function route(reqType) {
         }
 
         // Handle the request
-        controller();
+        controller(req, res);
     };
 }
 

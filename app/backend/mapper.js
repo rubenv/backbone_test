@@ -9,15 +9,16 @@ var _ = require('underscore');
  */
 
 var Mapper = function (defaultHandler) {
+    this._handlers = {};
     this._default = defaultHandler;
 };
 
 _.extend(Mapper.prototype, {
-    _handlers: {},
-    _default: null,
-
     // Register a new handler
     register: function (reqType, objType, handler) {
+        if (!this._handlers[reqType]) {
+            this._handlers[reqType] = {};
+        }
         this._handlers[reqType][objType] = handler;
     },
 

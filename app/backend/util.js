@@ -10,6 +10,11 @@ _.extend(Util.prototype, {
         res.end(JSON.stringify(obj), 'UTF-8');
     },
 
+    respondNotFound: function (res) {
+        var obj = { message: "Not found!" };
+        this.respondJSON(res, obj, 404);
+    },
+
     respondForbidden: function (res) {
         var obj = { message: "Access denied!" };
         this.respondJSON(res, obj, 403);
