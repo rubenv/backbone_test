@@ -27,11 +27,11 @@ function render_view(div, name, params) {
 }
 
 function run() {
-    render_view('body', 'test', {
-        people: [
-            { name: 'Ruben' },
-            { name: 'Tinne' }
-        ]
+    $.getJSON('/backend/person', function (data) {
+        console.log(data);
+        render_view('body', 'test', {
+            people: data
+        });
     });
 }
 
