@@ -33,8 +33,8 @@ _.extend(MongoHandler.prototype, {
         this.model = mongo.model(this._collection, new mongo.Schema(this._schema));
         this.registerController('getObject', this.getMongoObject);
         this.registerController('getCollection', this.getMongoCollection);
-        this.registerController('putObject', this.putMongoObject);
-        this.registerController('postObject', this.updateMongoObject);
+        this.registerController('newObject', this.newMongoObject);
+        this.registerController('updateObject', this.updateMongoObject);
         this.registerController('deleteObject', this.deleteMongoObject);
 
         var self = this;
@@ -83,7 +83,7 @@ _.extend(MongoHandler.prototype, {
         });
     },
 
-    putMongoObject: function (req, res) {
+    newMongoObject: function (req, res) {
         var instance = new this.model();
         _.extend(instance, req.body);
         this._assignID(instance);
