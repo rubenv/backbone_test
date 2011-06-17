@@ -32,6 +32,7 @@ _.extend(MongoHandler.prototype, {
         this.registerController('getCollection', this.getMongoCollection);
         this.registerController('putObject', this.putMongoObject);
         this.registerController('postObject', this.updateMongoObject);
+        this.registerController('deleteObject', this.deleteMongoObject);
 
         var self = this;
         _.each(this._acls, function (handler, method) {
@@ -105,6 +106,21 @@ _.extend(MongoHandler.prototype, {
             instance.save(function (err) {
                 if (err) throw err;
                 util.respondJSON(res, instance);
+            });
+        });
+    },
+
+    deleteMongoObject: function (req, res) {
+        if (!req.params.uuid) {
+            util.respondBadRequest(res);
+            return;
+        }
+
+        this.model.findOne({ uuid: req.params.uuid }, function (err, instance) {
+            if (err) throw err;
+            instance.remove(function (err) {
+                if (err) throw err;
+                util.respondJSON(res, { ok: 1 });
             });
         });
     }

@@ -16,6 +16,7 @@ MongoHandler.create({
         getObject: personAcl,
         getCollection: personAcl,
         putObject: personAcl,
-        postObject: personAcl
+        postObject: personAcl,
+        deleteObject: personAcl
     }
 });

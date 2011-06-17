@@ -48,4 +48,5 @@ module.exports = function (app) {
     app.get('/:type/:uuid', route('getObject'));
     app.put('/:type', route('putObject'));
     app.post('/:type/:uuid', route('postObject'));
+    app.delete('/:type/:uuid', route('deleteObject'));
 };
