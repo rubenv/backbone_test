@@ -27,6 +27,9 @@ _.extend(MongoHandler.prototype, {
             throw('_schema can not be empty!');
         }
 
+        // Add id by default.
+        _.extend(this._schema, { id: { type: String, index: true } });
+
         this.model = mongo.model(this._collection, new mongo.Schema(this._schema));
         this.registerController('getObject', this.getMongoObject);
         this.registerController('getCollection', this.getMongoCollection);
@@ -57,17 +60,17 @@ _.extend(MongoHandler.prototype, {
         mapper.register(reqType, this._collection, wrapper);
     },
 
-    _assignUUID: function (instance) {
-        instance.uuid = uuid();
+    _assignID: function (instance) {
+        instance.id = uuid();
     },
 
     getMongoObject: function (req, res) {
-        if (!req.params.uuid) {
+        if (!req.params.id) {
             util.respondBadRequest(res);
             return;
         }
 
-        this.model.findOne({ uuid: req.params.uuid }, function (err, obj) {
+        this.model.findOne({ id: req.params.id }, function (err, obj) {
             if (err) throw err;
             util.respondJSON(res, obj);
         });
@@ -83,7 +86,7 @@ _.extend(MongoHandler.prototype, {
     putMongoObject: function (req, res) {
         var instance = new this.model();
         _.extend(instance, req.body);
-        this._assignUUID(instance);
+        this._assignID(instance);
         instance.save(function (err) {
             if (err) throw err;
             util.respondJSON(res, instance);
@@ -91,15 +94,15 @@ _.extend(MongoHandler.prototype, {
     },
 
     updateMongoObject: function (req, res) {
-        if (!req.params.uuid) {
+        if (!req.params.id) {
             util.respondBadRequest(res);
             return;
         }
 
-        delete req.body.uuid;
+        delete req.body.id;
         delete req.body._id;
 
-        this.model.findOne({ uuid: req.params.uuid }, function (err, instance) {
+        this.model.findOne({ id: req.params.id }, function (err, instance) {
             if (err) throw err;
             _.extend(instance, req.body);
             instance.save(function (err) {
@@ -110,12 +113,12 @@ _.extend(MongoHandler.prototype, {
     },
 
     deleteMongoObject: function (req, res) {
-        if (!req.params.uuid) {
+        if (!req.params.id) {
             util.respondBadRequest(res);
             return;
         }
 
-        this.model.findOne({ uuid: req.params.uuid }, function (err, instance) {
+        this.model.findOne({ id: req.params.id }, function (err, instance) {
             if (err) throw err;
             instance.remove(function (err) {
                 if (err) throw err;

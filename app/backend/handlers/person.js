@@ -8,7 +8,6 @@ MongoHandler.create({
     _collection: 'person',
 
     _schema: {
-        uuid: String,
         name: String
     },
 
