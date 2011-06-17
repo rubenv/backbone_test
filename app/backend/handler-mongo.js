@@ -81,8 +81,7 @@ _.extend(MongoHandler.prototype, {
     },
 
     putMongoObject: function (req, res) {
-        var model = mongo.model(this._collection);
-        var instance = new model();
+        var instance = new this.model();
         _.extend(instance, req.body);
         this._assignUUID(instance);
         instance.save(function (err) {
