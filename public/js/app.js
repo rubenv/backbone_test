@@ -26,13 +26,31 @@ function render_view(div, name, params) {
     });
 }
 
+var list;
+
 function run() {
-    $.getJSON('/backend/person', function (data) {
-        console.log(data);
-        render_view('body', 'test', {
-            people: data
-        });
+    var person = new People();
+
+    list = new PeopleList({
+        collection: person
     });
+
+    person.fetch();
 }
+
+var Person = Backbone.Model.extend({
+    
+});
+
+var People = Backbone.Collection.extend({
+    url: '/backend/person',
+    model: Person
+});
+
+var PeopleList = Backbone.View.extend({
+    render: function () {
+        console.log(this);
+    }
+});
 
 $(run);
