@@ -14,7 +14,7 @@ MongoHandler.create({
     _acls: {
         getObject: personAcl,
         getCollection: personAcl,
-        putObject: personAcl,
+        newObject: personAcl,
         updateObject: personAcl,
         deleteObject: personAcl
     }
