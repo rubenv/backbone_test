@@ -1,2 +1,2 @@
 #!/bin/bash
-npm install connect mongoose node-uuid uglify-js underscore
+npm install connect mongoose node-uuid uglify-js underscore jade

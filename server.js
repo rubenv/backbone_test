@@ -15,16 +15,6 @@ function optimize_js(data) {
     return pro.gen_code(ast);
 }
 
-var app_server = connect(
-    connect.router(function (app) {
-        app.get('/', function (req, res) {
-            load_haml('index', function (template) {
-                res.end(template({ haml_template: haml_template }));
-            });
-        });
-    })
-);
-
 var server = connect(
     connect.favicon(), 
     connect.profiler(),
@@ -33,6 +23,6 @@ var server = connect(
     connect.bodyParser()
 );
 
-server.use('/backend', backend.server);
-server.use('/', app_server);
+server.use('/views', connect.static(__dirname + '/app/backend/views'));
+server.use('/', backend.server);
 server.listen(3000);

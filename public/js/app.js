@@ -1,3 +1,4 @@
+/*
 var views = {};
 
 function create_view(name, data) {
@@ -27,30 +28,49 @@ function render_view(div, name, params) {
 }
 
 var list;
+*/
 
-function run() {
-    var person = new People();
+var app = window.app = {
+    controllers: {},
+    model: {},
+    data: {},
+    ui: {}
+};
 
-    list = new PeopleList({
-        collection: person
-    });
-
-    person.fetch();
-}
-
-var Person = Backbone.Model.extend({
-    
+app.model.Person = Backbone.Model.extend({
 });
 
-var People = Backbone.Collection.extend({
+app.model.People = Backbone.Collection.extend({
     url: '/backend/person',
-    model: Person
+    model: app.model.Person
 });
 
-var PeopleList = Backbone.View.extend({
+app.ui.PeopleList = Backbone.View.extend({
+    tagName: 'ul',
+
+    constructor: function (options) {
+        Backbone.View.call(this, options);
+        _.bindAll(this, "render");
+        app.data.People.bind("refresh", this.render);
+        app.data.People.bind("add", this.render);
+        app.data.People.bind("remove", this.render);
+    },
+
     render: function () {
-        console.log(this);
+        var el = $(this.el);
+        el.empty();
+        app.data.People.map(function (person) {
+            el.append($('<li/>').text(person.get('name')));
+        });
     }
 });
 
-$(run);
+$(function () {
+    app.data.People = new app.model.People();
+    app.ui.PeopleList = new app.ui.PeopleList({
+        collection: app.data.People
+    });
+    app.data.People.fetch();
+
+    $('#app').append(app.ui.PeopleList.el);
+});

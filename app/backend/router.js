@@ -1,5 +1,6 @@
 var mappers = require('backend/mapper'),
-    util = require('backend/util');
+    util = require('backend/util'),
+    main_handler = require('backend/main');
 
 /* The router is the core of the backend.
  *
@@ -44,9 +45,11 @@ function route(reqType) {
 }
 
 module.exports = function (app) {
-    app.get('/:type', route('getCollection'));
-    app.get('/:type/:id', route('getObject'));
-    app.put('/:type', route('newObject'));
-    app.put('/:type/:id', route('updateObject'));
-    app.delete('/:type/:id', route('deleteObject'));
+    app.get('/', main_handler);
+    app.get('/backend/:type', route('getCollection'));
+    app.get('/backend/:type/:id', route('getObject'));
+    app.put('/backend/:type', route('newObject'));
+    app.post('/backend/:type', route('newObject'));
+    app.put('/backend/:type/:id', route('updateObject'));
+    app.delete('/backend/:type/:id', route('deleteObject'));
 };
