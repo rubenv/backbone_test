@@ -31,10 +31,12 @@ var list;
 */
 
 var app = window.app = {
-    controllers: {},
+    // These are types.
     model: {},
-    data: {},
     widgets: {},
+
+    // These are instances.
+    data: {},
     ui: {}
 };
 
