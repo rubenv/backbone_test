@@ -34,6 +34,7 @@ var app = window.app = {
     controllers: {},
     model: {},
     data: {},
+    widgets: {},
     ui: {}
 };
 
@@ -45,7 +46,7 @@ app.model.People = Backbone.Collection.extend({
     model: app.model.Person
 });
 
-app.ui.PeopleList = Backbone.View.extend({
+app.widgets.PeopleList = Backbone.View.extend({
     tagName: 'ul',
 
     constructor: function (options) {
@@ -59,18 +60,51 @@ app.ui.PeopleList = Backbone.View.extend({
     render: function () {
         var el = $(this.el);
         el.empty();
-        app.data.People.map(function (person) {
+        this.collection.map(function (person) {
             el.append($('<li/>').text(person.get('name')));
         });
+        return this;
+    }
+});
+
+app.widgets.AddLink = Backbone.View.extend({
+    tagName: 'a',
+
+    initialize: function() {
+        _.bindAll(this, "addPerson");
+    },
+
+    events: {
+        'click': 'addPerson'
+    },
+
+    render: function () {
+        var el = $(this.el);
+        el.attr('href', '#');
+        el.text('Add');
+        return this;
+    },
+
+    addPerson: function (event) {
+        var name = prompt('Name?');
+        if (name) {
+            app.data.People.create({ name: name });
+        }
+        event.stopPropagation();
+        event.preventDefault();
     }
 });
 
 $(function () {
     app.data.People = new app.model.People();
-    app.ui.PeopleList = new app.ui.PeopleList({
+
+    app.ui.PeopleList = new app.widgets.PeopleList({
         collection: app.data.People
     });
-    app.data.People.fetch();
+    app.ui.AddLink = new app.widgets.AddLink();
 
-    $('#app').append(app.ui.PeopleList.el);
+    $('#app').append(app.ui.PeopleList.render().el);
+    $('#app').append(app.ui.AddLink.render().el);
+
+    app.data.People.fetch();
 });
