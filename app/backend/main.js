@@ -6,8 +6,9 @@ var html = fs.readFileSync(__dirname + '/views/index.jade');
 
 module.exports = function (req, res) {
     var people = orm.getType('person').find(function (err, obj) {
-        if (err)
+        if (err) {
             throw err;
+        }
         res.end(jade.render(html, { locals: { people: obj } }), 'UTF-8');
     });
 };

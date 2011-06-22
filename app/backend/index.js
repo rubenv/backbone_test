@@ -5,7 +5,9 @@ var _ = require('underscore'),
 
 // Load type information.
 fs.readdir(__dirname + '/handlers/', function (err, files) {
-    if (err) throw err;
+    if (err) {
+        throw err;
+    }
     _.each(files, function (file) {
         if (file[0] !== '.') {
             require(__dirname + '/handlers/' + file);

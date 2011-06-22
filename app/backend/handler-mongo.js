@@ -71,14 +71,18 @@ _.extend(MongoHandler.prototype, {
         }
 
         this.model.findOne({ id: req.params.id }, function (err, obj) {
-            if (err) throw err;
+            if (err) {
+                throw err;
+            }
             util.respondJSON(res, obj);
         });
     },
 
     getMongoCollection: function (req, res) {
         this.model.find(function (err, obj) {
-            if (err) throw err;
+            if (err) {
+                throw err;
+            }
             util.respondJSON(res, obj);
         });
     },
@@ -88,7 +92,9 @@ _.extend(MongoHandler.prototype, {
         _.extend(instance, req.body);
         this._assignID(instance);
         instance.save(function (err) {
-            if (err) throw err;
+            if (err) {
+                throw err;
+            }
             util.respondJSON(res, instance);
         });
     },
@@ -103,10 +109,14 @@ _.extend(MongoHandler.prototype, {
         delete req.body._id;
 
         this.model.findOne({ id: req.params.id }, function (err, instance) {
-            if (err) throw err;
+            if (err) {
+                throw err;
+            }
             _.extend(instance, req.body);
             instance.save(function (err) {
-                if (err) throw err;
+                if (err) {
+                    throw err;
+                }
                 util.respondJSON(res, instance);
             });
         });
@@ -119,9 +129,13 @@ _.extend(MongoHandler.prototype, {
         }
 
         this.model.findOne({ id: req.params.id }, function (err, instance) {
-            if (err) throw err;
+            if (err) {
+                throw err;
+            }
             instance.remove(function (err) {
-                if (err) throw err;
+                if (err) {
+                    throw err;
+                }
                 util.respondJSON(res, { ok: 1 });
             });
         });
