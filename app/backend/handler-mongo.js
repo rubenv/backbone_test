@@ -1,7 +1,7 @@
 var _ = require('underscore'),
     mappers = require('backend/mapper'),
     util = require('backend/util'),
-    mongo = require('backend/services').mongo,
+    orm = require('backend/orm'),
     uuid = require('node-uuid');
 
 var MongoHandler = function (options) {
@@ -9,7 +9,7 @@ var MongoHandler = function (options) {
 };
 
 // For convenience.
-MongoHandler.create = function(options) {
+MongoHandler.create = function (options) {
     new MongoHandler(options).register();
 };
 
@@ -21,16 +21,16 @@ _.extend(MongoHandler.prototype, {
 
     register: function () {
         if (this._collection === '') {
-            throw('_collection can not be empty!');
+            throw '_collection can not be empty!';
         }
         if (this._schema === null) {
-            throw('_schema can not be empty!');
+            throw '_schema can not be empty!';
         }
 
         // Add id by default.
         _.extend(this._schema, { id: { type: String, index: true } });
 
-        this.model = mongo.model(this._collection, new mongo.Schema(this._schema));
+        this.model = orm.registerType(this._collection, this._schema);
         this.registerController('getObject', this.getMongoObject);
         this.registerController('getCollection', this.getMongoCollection);
         this.registerController('newObject', this.newMongoObject);

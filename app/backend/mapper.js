@@ -25,7 +25,7 @@ _.extend(Mapper.prototype, {
     // Resolve a handler
     resolve: function (reqType, objType) {
         if (!this._handlers[reqType] || !this._handlers[reqType][objType]) {
-            return this._default; 
+            return this._default;
         }
 
         return this._handlers[reqType][objType];
@@ -41,7 +41,7 @@ var defaultAcl = function () {
 var defaultValidator = function () {
     return true;
 };
- 
+
 // Default controller does pass-through through middleware stack (eventually causing 404)
 // When null is encountered as a controller, the ACL check is also bypassed.
 var defaultController = null;

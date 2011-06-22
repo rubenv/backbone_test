@@ -1,3 +1,5 @@
+/*globals $, _, prompt, Backbone */
+
 /*
 var views = {};
 
@@ -72,7 +74,7 @@ app.widgets.PeopleList = Backbone.View.extend({
 app.widgets.AddLink = Backbone.View.extend({
     tagName: 'a',
 
-    initialize: function() {
+    initialize: function () {
         _.bindAll(this, "addPerson");
     },
 

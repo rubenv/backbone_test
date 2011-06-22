@@ -1,6 +1,6 @@
 var MongoHandler = require('backend/handler-mongo');
 
-function personAcl () {
+function personAcl() {
     return true;
 }
 

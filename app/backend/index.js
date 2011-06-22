@@ -7,15 +7,13 @@ var _ = require('underscore'),
 fs.readdir(__dirname + '/handlers/', function (err, files) {
     if (err) throw err;
     _.each(files, function (file) {
-        if (file[0] != '.') {
+        if (file[0] !== '.') {
             require(__dirname + '/handlers/' + file);
         }
     });
 });
 
 
-var backend_server = connect(
-    connect.router(router)
-);
+var backend_server = connect(connect.router(router));
 
 module.exports.server = backend_server;

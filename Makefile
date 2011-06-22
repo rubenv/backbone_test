@@ -1,4 +1,7 @@
-JS_FILES=app/backend/*.js app/backend/*/*.js public/js/app.js
+BASEDIR=./tools/js-validate
+BACKEND_FILES=app/backend/*.js app/backend/*/*.js
+CLIENT_FILES=public/js/app.js
 
 all:
-	./tools/js-validate/do-validate.sh $(JS_FILES)
+	$(BASEDIR)/run.js node $(BACKEND_FILES)
+	$(BASEDIR)/run.js browser $(CLIENT_FILES)

@@ -51,5 +51,5 @@ module.exports = function (app) {
     app.put('/backend/:type', route('newObject'));
     app.post('/backend/:type', route('newObject'));
     app.put('/backend/:type/:id', route('updateObject'));
-    app.delete('/backend/:type/:id', route('deleteObject'));
+    app['delete']('/backend/:type/:id', route('deleteObject'));
 };
