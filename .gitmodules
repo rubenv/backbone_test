@@ -1,0 +1,3 @@
+[submodule "tools/js-validate"]
+	path = tools/js-validate
+	url = git://github.com/rubenv/js-validate.git
