@@ -8,3 +8,7 @@ html
         script(type='text/javascript',src='/js/app.js')
     body
         #app
+        script(type='text/javascript') 
+            $(function () {
+            app.data.People.refresh(!{JSON.stringify(people)});
+            });

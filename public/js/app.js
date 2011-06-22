@@ -109,6 +109,4 @@ $(function () {
 
     $('#app').append(app.ui.PeopleList.render().el);
     $('#app').append(app.ui.AddLink.render().el);
-
-    app.data.People.fetch();
 });
