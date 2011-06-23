@@ -8,7 +8,11 @@ MongoHandler.create({
     _collection: 'person',
 
     _schema: {
-        name: String
+        name: String,
+        address: {
+            nr: Number,
+            street: String
+        }
     },
 
     _acls: {

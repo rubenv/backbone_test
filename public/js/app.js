@@ -42,7 +42,20 @@ var app = window.app = {
     ui: {}
 };
 
-app.model.Person = Backbone.Model.extend({
+app.model.Address = Backbone.RelationalModel.extend();
+
+app.model.Person = Backbone.RelationalModel.extend({
+    relations: [
+        {
+            type: Backbone.HasOne,
+            key: 'address',
+            relatedModel: app.model.Address,
+            reverseRelation: {
+                type: Backbone.HasOne,
+                key: 'person'
+            }
+        }
+    ]
 });
 
 app.model.People = Backbone.Collection.extend({
