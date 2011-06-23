@@ -56,7 +56,7 @@ app.widgets.PeopleList = Backbone.View.extend({
     constructor: function (options) {
         Backbone.View.call(this, options);
         _.bindAll(this, "render");
-        app.data.People.bind("refresh", this.render);
+        app.data.People.bind("reset", this.render);
         app.data.People.bind("add", this.render);
         app.data.People.bind("remove", this.render);
     },
